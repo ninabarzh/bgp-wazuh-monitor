@@ -107,6 +107,8 @@ docker exec wazuh-manager tail -f /var/ossec/logs/alerts/alerts.json | grep -E '
 
 ![Architecture](assets/architecture.png)
 
+<img src="assets/architecture.png" width="200" />
+
 ## Customization
 
 ### Adding Detectors
