@@ -158,12 +158,13 @@ Apache 2.0
    - Rule IDs 5710-5719 enabled in Wazuh
 
 3. **Security**:
-   ```bash
-   # Rotate credentials after deployment
-   docker-compose exec wazuh-manager /var/ossec/bin/wazuh-control stop
-   # Edit /var/ossec/etc/api.yaml
-   docker-compose exec wazuh-manager /var/ossec/bin/wazuh-control start
-   ```
+
+```bash
+# Rotate credentials after deployment
+docker-compose exec wazuh-manager /var/ossec/bin/wazuh-control stop
+# Edit /var/ossec/etc/api.yaml
+docker-compose exec wazuh-manager /var/ossec/bin/wazuh-control start
+```
    
 ## Performance tuning
 
