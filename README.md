@@ -3,6 +3,7 @@
 ![Wazuh Integration](https://img.shields.io/badge/Wazuh-4.7+-blue)
 ![Docker](https://img.shields.io/badge/Docker-Compose-ff69b4)
 ![License](https://img.shields.io/badge/License-Apache_2.0-green)
+![Mock Mode](https://img.shields.io/badge/Mock-Enabled-blue)
 
 Modular security detectors integrating with Wazuh for:
 - **BGP Hijack Detection** (Rule ID 900100)
