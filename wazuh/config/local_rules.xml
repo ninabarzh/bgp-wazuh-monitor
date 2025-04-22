@@ -1,0 +1,10 @@
+<group name="bgp,">
+  <rule id="900100" level="12">
+    <description>BGP Hijack Detected: $(bgp.hijacker_asn) announcing $(bgp.victim_prefix)</description>
+    <group>network,</group>
+    <mitre>
+      <id>T1574</id>
+      <technique>Route Hijacking</technique>
+    </mitre>
+  </rule>
+</group>

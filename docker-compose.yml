@@ -1,0 +1,61 @@
+services:
+  wazuh-manager:
+    build: ./wazuh
+    image: custom-wazuh-manager
+    environment:
+      - API_USER=${WAZUH_API_USER}
+      - API_PASS=${WAZUH_API_PASS}
+    ports:
+      - "1514:1514/udp"
+      - "1515:1515/tcp"
+      - "55000:55000/tcp"
+    volumes:
+      - wazuh-data:/var/ossec
+    networks:
+      - wazuh-net
+
+  wazuh-indexer:
+    image: wazuh/wazuh-indexer:4.7.2
+    environment:
+      - INDEXER_PASSWORD=${INDEXER_PASSWORD}
+    ports:
+      - "9200:9200"
+    networks:
+      - wazuh-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-k", "https://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  wazuh-dashboard:
+    image: wazuh/wazuh-dashboard:4.7.2
+    environment:
+      - INDEXER_URL=https://wazuh-indexer:9200
+      - INDEXER_USERNAME=admin
+      - INDEXER_PASSWORD=${INDEXER_PASSWORD}
+    ports:
+      - "443:5601"
+    depends_on:
+      wazuh-indexer:
+        condition: service_healthy
+    networks:
+      - wazuh-net
+
+  bgp-detector:
+    build: ./bgp-detector
+    environment:
+      # - API_KEY=${BGPSTREAM_API_KEY}
+      - WAZUH_API=http://wazuh-manager:55000
+      - WAZUH_API_USER=${WAZUH_API_USER}
+      - WAZUH_API_PASS=${WAZUH_API_PASS}
+    networks:
+      - wazuh-net
+    restart: unless-stopped
+
+networks:
+  wazuh-net:
+    driver: bridge
+
+volumes:
+  wazuh-data:
