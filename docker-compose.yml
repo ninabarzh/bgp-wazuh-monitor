@@ -1,3 +1,4 @@
+# docker-compose.yml
 services:
   wazuh-manager:
     build: ./wazuh
@@ -22,11 +23,6 @@ services:
       - "9200:9200"
     networks:
       - wazuh-net
-    healthcheck:
-      test: ["CMD", "curl", "-f", "-k", "https://localhost:9200"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   wazuh-dashboard:
     image: wazuh/wazuh-dashboard:4.7.2
@@ -37,18 +33,33 @@ services:
     ports:
       - "443:5601"
     depends_on:
-      wazuh-indexer:
-        condition: service_healthy
+      - wazuh-indexer
     networks:
       - wazuh-net
 
   bgp-detector:
-    build: ./bgp-detector
+    build: ./detectors/bgp-hijack
     environment:
-      # - API_KEY=${BGPSTREAM_API_KEY}
       - WAZUH_API=http://wazuh-manager:55000
       - WAZUH_API_USER=${WAZUH_API_USER}
       - WAZUH_API_PASS=${WAZUH_API_PASS}
+      - USE_MOCK=${USE_MOCK:-true}
+      - CHECK_INTERVAL=300
+    networks:
+      - wazuh-net
+    restart: unless-stopped
+
+  ssh-detector:
+    build: ./detectors/ssh-bruteforce
+    environment:
+      - WAZUH_API=http://wazuh-manager:55000/api/alert
+      - WAZUH_API_USER=${WAZUH_API_USER}
+      - WAZUH_API_PASS=${WAZUH_API_PASS}
+      - USE_MOCK=${USE_MOCK:-true}
+      - FAILED_ATTEMPT_THRESHOLD=5
+      - TIME_WINDOW_MINUTES=10
+    volumes:
+      - /var/ossec/logs/alerts:/var/ossec/logs/alerts:ro
     networks:
       - wazuh-net
     restart: unless-stopped

@@ -1,0 +1,7 @@
+<decoder name="bgp-hijack">
+  <prematch>BGP Hijack</prematch>
+</decoder>
+
+<decoder name="ssh-bruteforce">
+  <prematch>SSH Bruteforce</prematch>
+</decoder>
