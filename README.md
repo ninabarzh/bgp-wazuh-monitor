@@ -105,7 +105,7 @@ docker exec wazuh-manager tail -f /var/ossec/logs/alerts/alerts.json | grep -E '
 
 ## Architecture
 
-![Forever In Progress](assets/architecture.png)
+![Architecture](assets/architecture.png)
 
 ## Customization
 
