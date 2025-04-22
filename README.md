@@ -7,12 +7,12 @@ A containerized BGP hijack detector that generates **simulated hijack events** f
 
 ## Features
 
-- **Realistic Mock Data Generation**
+- **Realistic mock data generation**
   - Fake AS numbers (AS1000-AS9999)
   - Random IPv4 prefixes (1.1.0.0/16 to 254.254.0.0/16)
   - Configurable event frequency
 
-- ** Wazuh Integration**
+- **Wazuh integration**
   - Native alerts through Wazuh API
   - Pre-configured custom rules (ID 900100)
   - MITRE ATT&CK T1574 tagging
@@ -91,7 +91,7 @@ docker-compose build bgp-detector
 
 ## Troubleshooting
 
-```commandline
+```
 # Test Wazuh API connectivity
 docker exec bgp-detector curl -k -u admin:StrongPassword123! http://wazuh-manager:55000
 
